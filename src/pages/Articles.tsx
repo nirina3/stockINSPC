@@ -9,10 +9,13 @@ import {
   AlertTriangle,
   CheckCircle
 } from 'lucide-react';
+import { useModal } from '../hooks/useModal';
+import NewArticleModal from '../components/modals/NewArticleModal';
 
 const Articles: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const newArticleModal = useModal();
 
   const categories = [
     { value: 'all', label: 'Toutes catégories' },
@@ -46,7 +49,6 @@ const Articles: React.FC = () => {
       currentStock: 5,
       minStock: 10,
       maxStock: 50,
-      unitPrice: 15000,
       supplier: 'TECH SUPPLIES',
       status: 'low',
       lastEntry: '2024-01-10'
@@ -60,7 +62,6 @@ const Articles: React.FC = () => {
       currentStock: 75,
       minStock: 25,
       maxStock: 200,
-      unitPrice: 8500,
       supplier: 'MEDICAL PLUS',
       status: 'normal',
       lastEntry: '2024-01-12'
@@ -74,7 +75,6 @@ const Articles: React.FC = () => {
       currentStock: 0,
       minStock: 5,
       maxStock: 30,
-      unitPrice: 3500,
       supplier: 'TECH SUPPLIES',
       status: 'out',
       lastEntry: '2023-12-20'
@@ -88,7 +88,6 @@ const Articles: React.FC = () => {
       currentStock: 40,
       minStock: 15,
       maxStock: 100,
-      unitPrice: 4200,
       supplier: 'HYGIENE PRO',
       status: 'normal',
       lastEntry: '2024-01-14'
@@ -128,6 +127,11 @@ const Articles: React.FC = () => {
     return matchesSearch && matchesCategory;
   });
 
+  const handleNewArticle = (articleData: any) => {
+    console.log('Nouvel article:', articleData);
+    // Logique pour sauvegarder l'article
+  };
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -141,6 +145,7 @@ const Articles: React.FC = () => {
           </p>
         </div>
         <button 
+          onClick={newArticleModal.openModal}
           className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-opacity"
           style={{ backgroundColor: '#6B2C91' }}
         >
@@ -203,9 +208,6 @@ const Articles: React.FC = () => {
                   Stock Actuel
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                  Prix Unitaire
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                   Statut
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
@@ -252,9 +254,6 @@ const Articles: React.FC = () => {
                     <div className="text-xs text-gray-500">
                       Min: {article.minStock} | Max: {article.maxStock}
                     </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {article.unitPrice.toLocaleString()} FCFA
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {getStatusBadge(article.status, article.currentStock, article.minStock)}
@@ -355,6 +354,13 @@ const Articles: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      <NewArticleModal
+        isOpen={newArticleModal.isOpen}
+        onClose={newArticleModal.closeModal}
+        onSave={handleNewArticle}
+      />
     </div>
   );
 };

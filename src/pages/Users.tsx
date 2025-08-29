@@ -12,10 +12,13 @@ import {
   Phone,
   Building
 } from 'lucide-react';
+import { useModal } from '../hooks/useModal';
+import NewUserModal from '../components/modals/NewUserModal';
 
 const Users: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRole, setSelectedRole] = useState('all');
+  const newUserModal = useModal();
 
   const roles = [
     { value: 'all', label: 'Tous les rôles' },
@@ -29,8 +32,8 @@ const Users: React.FC = () => {
     {
       id: 1,
       name: 'Marie Kouassi',
-      email: 'marie.kouassi@inspc.ci',
-      phone: '+225 07 12 34 56 78',
+      email: 'marie.kouassi@inspc.mg',
+      phone: '+261 34 12 345 67',
       role: 'admin',
       service: 'Service Administratif',
       status: 'active',
@@ -40,8 +43,8 @@ const Users: React.FC = () => {
     {
       id: 2,
       name: 'Dr. Aya Traoré',
-      email: 'aya.traore@inspc.ci',
-      phone: '+225 05 98 76 54 32',
+      email: 'aya.traore@inspc.mg',
+      phone: '+261 33 98 765 43',
       role: 'manager',
       service: 'Unité d\'Échographie',
       status: 'active',
@@ -51,8 +54,8 @@ const Users: React.FC = () => {
     {
       id: 3,
       name: 'Jean Koffi',
-      email: 'jean.koffi@inspc.ci',
-      phone: '+225 01 23 45 67 89',
+      email: 'jean.koffi@inspc.mg',
+      phone: '+261 32 23 456 78',
       role: 'supervisor',
       service: 'Service Pédagogique et Scientifique',
       status: 'active',
@@ -62,8 +65,8 @@ const Users: React.FC = () => {
     {
       id: 4,
       name: 'Paul Diabaté',
-      email: 'paul.diabate@inspc.ci',
-      phone: '+225 07 87 65 43 21',
+      email: 'paul.diabate@inspc.mg',
+      phone: '+261 34 87 654 32',
       role: 'user',
       service: 'Direction Générale',
       status: 'active',
@@ -73,8 +76,8 @@ const Users: React.FC = () => {
     {
       id: 5,
       name: 'Fatou Bamba',
-      email: 'fatou.bamba@inspc.ci',
-      phone: '+225 05 11 22 33 44',
+      email: 'fatou.bamba@inspc.mg',
+      phone: '+261 33 11 223 34',
       role: 'user',
       service: 'Service Documentation',
       status: 'inactive',
@@ -124,6 +127,11 @@ const Users: React.FC = () => {
     return matchesSearch && matchesRole;
   });
 
+  const handleNewUser = (userData: any) => {
+    console.log('Nouvel utilisateur:', userData);
+    // Logique pour créer l'utilisateur
+  };
+
   const roleStats = {
     admin: users.filter(u => u.role === 'admin').length,
     manager: users.filter(u => u.role === 'manager').length,
@@ -144,6 +152,7 @@ const Users: React.FC = () => {
           </p>
         </div>
         <button 
+          onClick={newUserModal.openModal}
           className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-opacity"
           style={{ backgroundColor: '#6B2C91' }}
         >
@@ -440,6 +449,13 @@ const Users: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      <NewUserModal
+        isOpen={newUserModal.isOpen}
+        onClose={newUserModal.closeModal}
+        onSave={handleNewUser}
+      />
     </div>
   );
 };

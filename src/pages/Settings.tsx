@@ -8,11 +8,27 @@ import {
   Database,
   Mail,
   Palette,
+  Upload,
   Globe
 } from 'lucide-react';
+import { useModal } from '../hooks/useModal';
+import ReportGeneratorModal from '../components/modals/ReportGeneratorModal';
+import AdvancedFiltersModal from '../components/modals/AdvancedFiltersModal';
 
 const Settings: React.FC = () => {
   const [activeTab, setActiveTab] = useState('general');
+  const reportGeneratorModal = useModal();
+  const advancedFiltersModal = useModal();
+
+  const handleReportGeneration = (reportConfig: any) => {
+    console.log('Génération rapport:', reportConfig);
+    // Logique pour générer le rapport
+  };
+
+  const handleAdvancedFilters = (filtersData: any) => {
+    console.log('Filtres avancés:', filtersData);
+    // Logique pour appliquer les filtres
+  };
 
   const tabs = [
     { id: 'general', label: 'Général', icon: Building2 },

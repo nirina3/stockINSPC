@@ -9,10 +9,15 @@ import {
   LineChart,
   Building
 } from 'lucide-react';
+import { useModal } from '../hooks/useModal';
+import ReportGeneratorModal from '../components/modals/ReportGeneratorModal';
+import AdvancedFiltersModal from '../components/modals/AdvancedFiltersModal';
 
 const Reports: React.FC = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('month');
   const [selectedService, setSelectedService] = useState('all');
+  const reportGeneratorModal = useModal();
+  const advancedFiltersModal = useModal();
 
   const periods = [
     { value: 'week', label: 'Cette semaine' },
@@ -70,35 +75,30 @@ const Reports: React.FC = () => {
   const topConsumingServices = [
     {
       service: 'Service Pédagogique et Scientifique',
-      totalValue: 1250000,
       percentage: 35,
       items: 156,
       trend: '+15%'
     },
     {
       service: 'Direction Formation et Recherche',
-      totalValue: 890000,
       percentage: 25,
       items: 98,
       trend: '+8%'
     },
     {
       service: 'Service Administratif',
-      totalValue: 675000,
       percentage: 19,
       items: 134,
       trend: '+12%'
     },
     {
       service: 'Unité d\'Échographie',
-      totalValue: 456000,
       percentage: 13,
       items: 67,
       trend: '+22%'
     },
     {
       service: 'Direction Générale',
-      totalValue: 289000,
       percentage: 8,
       items: 45,
       trend: '+5%'
@@ -108,40 +108,47 @@ const Reports: React.FC = () => {
   const categoryAnalysis = [
     {
       category: 'Fournitures Bureau',
-      totalValue: 1890000,
       percentage: 42,
-      items: 245,
-      avgMonthly: 157500
+      items: 245
     },
     {
       category: 'Consommables Médicaux',
-      totalValue: 1234000,
       percentage: 28,
-      items: 189,
-      avgMonthly: 102833
+      items: 189
     },
     {
       category: 'Consommables IT',
-      totalValue: 987000,
       percentage: 22,
-      items: 156,
-      avgMonthly: 82250
+      items: 156
     },
     {
       category: 'Produits Entretien',
-      totalValue: 356000,
       percentage: 8,
-      items: 98,
-      avgMonthly: 29667
+      items: 98
     }
   ];
 
   const monthlyTrends = [
-    { month: 'Oct 2023', entries: 45, exits: 189, value: 456000 },
-    { month: 'Nov 2023', entries: 52, exits: 234, value: 567000 },
-    { month: 'Déc 2023', entries: 38, exits: 198, value: 489000 },
-    { month: 'Jan 2024', entries: 67, exits: 267, value: 678000 }
+    { month: 'Oct 2023', entries: 45, exits: 189 },
+    { month: 'Nov 2023', entries: 52, exits: 234 },
+    { month: 'Déc 2023', entries: 38, exits: 198 },
+    { month: 'Jan 2024', entries: 67, exits: 267 }
   ];
+
+  const handleReportGeneration = (reportConfig: any) => {
+    console.log('Génération rapport:', reportConfig);
+    // Logique pour générer le rapport
+  };
+
+  const handleAdvancedFilters = (filtersData: any) => {
+    console.log('Filtres avancés:', filtersData);
+    // Logique pour appliquer les filtres
+  };
+
+  const handleExport = () => {
+    console.log('Export des données');
+    // Logique pour exporter les données
+  };
 
   return (
     <div className="space-y-6">
@@ -157,6 +164,7 @@ const Reports: React.FC = () => {
         </div>
         <div className="flex space-x-3">
           <button 
+            onClick={advancedFiltersModal.openModal}
             className="flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
             style={{ color: '#6B2C91' }}
           >
@@ -164,11 +172,20 @@ const Reports: React.FC = () => {
             Filtres Avancés
           </button>
           <button 
+            onClick={handleExport}
             className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-opacity"
             style={{ backgroundColor: '#00A86B' }}
           >
             <Download className="w-4 h-4 mr-2" />
             Exporter
+          </button>
+          <button 
+            onClick={reportGeneratorModal.openModal}
+            className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-opacity"
+            style={{ backgroundColor: '#6B2C91' }}
+          >
+            <BarChart3 className="w-4 h-4 mr-2" />
+            Générer Rapport
           </button>
         </div>
       </div>
@@ -286,9 +303,7 @@ const Reports: React.FC = () => {
                         {service.service}
                       </p>
                       <div className="text-right">
-                        <p className="text-sm font-bold" style={{ color: '#6B2C91' }}>
-                          {service.totalValue.toLocaleString()} FCFA
-                        </p>
+                        <p className="text-sm font-bold" style={{ color: '#6B2C91' }}>{service.items} articles</p>
                         <p className="text-xs text-green-600">
                           {service.trend}
                         </p>
@@ -349,10 +364,7 @@ const Reports: React.FC = () => {
                   </div>
                   <div className="flex items-center justify-between text-xs text-gray-500">
                     <span>{category.items} articles</span>
-                    <span>{category.totalValue.toLocaleString()} FCFA</span>
-                  </div>
-                  <div className="text-xs text-gray-500 mt-1">
-                    Moyenne mensuelle: {category.avgMonthly.toLocaleString()} FCFA
+                    <span>{category.percentage}% du total</span>
                   </div>
                 </div>
               ))}
@@ -432,9 +444,7 @@ const Reports: React.FC = () => {
                       </span>
                     </td>
                     <td className="py-4 px-4 text-right">
-                      <span className="text-sm font-bold" style={{ color: '#6B2C91' }}>
-                        {trend.value.toLocaleString()} FCFA
-                      </span>
+                      <span className="text-sm font-bold" style={{ color: '#6B2C91' }}>Total: {trend.entries + trend.exits}</span>
                     </td>
                   </tr>
                 ))}
@@ -443,6 +453,18 @@ const Reports: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <ReportGeneratorModal
+        isOpen={reportGeneratorModal.isOpen}
+        onClose={reportGeneratorModal.closeModal}
+        onGenerate={handleReportGeneration}
+      />
+      <AdvancedFiltersModal
+        isOpen={advancedFiltersModal.isOpen}
+        onClose={advancedFiltersModal.closeModal}
+        onApply={handleAdvancedFilters}
+      />
     </div>
   );
 };

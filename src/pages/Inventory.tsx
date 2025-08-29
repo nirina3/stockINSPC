@@ -9,10 +9,13 @@ import {
   AlertTriangle,
   Package
 } from 'lucide-react';
+import { useModal } from '../hooks/useModal';
+import NewInventoryModal from '../components/modals/NewInventoryModal';
 
 const Inventory: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('all');
+  const newInventoryModal = useModal();
 
   const inventoryStatuses = [
     { value: 'all', label: 'Tous les inventaires' },
@@ -30,7 +33,6 @@ const Inventory: React.FC = () => {
       responsible: 'Marie Kouassi',
       articlesCount: 247,
       discrepancies: 12,
-      adjustmentValue: 45000,
       category: 'Général'
     },
     {
@@ -41,7 +43,6 @@ const Inventory: React.FC = () => {
       responsible: 'Dr. Aya Traoré',
       articlesCount: 89,
       discrepancies: 3,
-      adjustmentValue: -15000,
       category: 'Médical'
     },
     {
@@ -52,7 +53,6 @@ const Inventory: React.FC = () => {
       responsible: 'Jean Koffi',
       articlesCount: 156,
       discrepancies: 0,
-      adjustmentValue: 0,
       category: 'Informatique'
     }
   ];
@@ -160,6 +160,11 @@ const Inventory: React.FC = () => {
     );
   };
 
+  const handleNewInventory = (inventoryData: any) => {
+    console.log('Nouvel inventaire:', inventoryData);
+    // Logique pour créer l'inventaire
+  };
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -173,6 +178,7 @@ const Inventory: React.FC = () => {
           </p>
         </div>
         <button 
+          onClick={newInventoryModal.openModal}
           className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-opacity"
           style={{ backgroundColor: '#6B2C91' }}
         >
@@ -307,9 +313,6 @@ const Inventory: React.FC = () => {
                   Écarts
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                  Ajustement
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                   Statut
                 </th>
               </tr>
@@ -342,14 +345,6 @@ const Inventory: React.FC = () => {
                       style={{ color: inventory.discrepancies > 0 ? '#DC143C' : '#00A86B' }}
                     >
                       {inventory.discrepancies}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span 
-                      className="text-sm font-medium"
-                      style={{ color: inventory.adjustmentValue > 0 ? '#00A86B' : '#DC143C' }}
-                    >
-                      {inventory.adjustmentValue > 0 ? '+' : ''}{inventory.adjustmentValue.toLocaleString()} FCFA
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -439,6 +434,13 @@ const Inventory: React.FC = () => {
           </table>
         </div>
       </div>
+
+      {/* Modal */}
+      <NewInventoryModal
+        isOpen={newInventoryModal.isOpen}
+        onClose={newInventoryModal.closeModal}
+        onSave={handleNewInventory}
+      />
     </div>
   );
 };

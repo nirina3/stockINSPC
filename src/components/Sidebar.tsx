@@ -51,7 +51,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             <Building2 className="w-8 h-8" style={{ color: '#6B2C91' }} />
             <div>
               <h1 className="text-lg font-bold" style={{ color: '#6B2C91' }}>INSPC</h1>
-              <p className="text-xs" style={{ color: '#6B2C91' }}>Gestion de Stock</p>
+              <p className="text-xs" style={{ color: '#6B2C91' }}>Befelatanana</p>
             </div>
           </div>
           <button 
@@ -96,7 +96,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
           <div className="text-center">
             <p className="text-xs text-gray-500">Version 1.0.0</p>
-            <p className="text-xs text-gray-500">© 2024 INSPC</p>
+            <p className="text-xs text-gray-500">© 2024 INSPC Antananarivo</p>
           </div>
         </div>
       </div>

@@ -49,8 +49,6 @@ const Movements: React.FC = () => {
       service: 'Service Administratif',
       reference: 'BR-2024-001',
       supplier: 'PAPETERIE MODERNE',
-      unitPrice: 2500,
-      totalValue: 125000,
       status: 'validated'
     },
     {
@@ -67,8 +65,6 @@ const Movements: React.FC = () => {
       reference: 'BS-2024-045',
       beneficiary: 'Secrétariat SPS',
       reason: 'Remplacement cartouches imprimante',
-      unitPrice: 15000,
-      totalValue: 45000,
       status: 'validated'
     },
     {
@@ -84,8 +80,6 @@ const Movements: React.FC = () => {
       service: 'Unité d\'Échographie',
       reference: 'BR-2024-002',
       supplier: 'MEDICAL PLUS',
-      unitPrice: 8500,
-      totalValue: 850000,
       status: 'validated'
     },
     {
@@ -102,8 +96,6 @@ const Movements: React.FC = () => {
       reference: 'BS-2024-046',
       beneficiary: 'Secrétariat DG',
       reason: 'Fournitures bureau mensuel',
-      unitPrice: 150,
-      totalValue: 3000,
       status: 'pending'
     },
     {
@@ -120,8 +112,6 @@ const Movements: React.FC = () => {
       reference: 'BS-2024-047',
       beneficiary: 'Équipe nettoyage',
       reason: 'Nettoyage locaux',
-      unitPrice: 4200,
-      totalValue: 21000,
       status: 'validated'
     }
   ];
@@ -279,9 +269,6 @@ const Movements: React.FC = () => {
                   Date/Heure
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                  Valeur
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                   Statut
                 </th>
               </tr>
@@ -351,14 +338,6 @@ const Movements: React.FC = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium" style={{ color: '#6B2C91' }}>
-                        {movement.totalValue.toLocaleString()} FCFA
-                      </div>
-                      <div className="text-xs text-gray-500">
-                        {movement.unitPrice.toLocaleString()} FCFA/unité
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
                       {getStatusBadge(movement.status)}
                     </td>
                   </tr>
@@ -415,9 +394,9 @@ const Movements: React.FC = () => {
             </div>
             <div>
               <p className="text-2xl font-bold" style={{ color: '#6B2C91' }}>
-                {movements.reduce((sum, m) => sum + m.totalValue, 0).toLocaleString()}
+                {movements.length}
               </p>
-              <p className="text-sm text-gray-600">Valeur totale FCFA</p>
+              <p className="text-sm text-gray-600">Total mouvements</p>
             </div>
           </div>
         </div>

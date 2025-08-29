@@ -22,7 +22,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
-              placeholder="Rechercher un article..."
+              placeholder="Rechercher..."
               className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent w-80"
               style={{ focusRingColor: '#6B2C91' }}
             />
@@ -45,8 +45,8 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
           {/* User menu */}
           <div className="flex items-center space-x-3">
             <div className="hidden md:block text-right">
-              <p className="text-sm font-medium" style={{ color: '#6B2C91' }}>Admin INSPC</p>
-              <p className="text-xs text-gray-500">Gestionnaire</p>
+              <p className="text-sm font-medium" style={{ color: '#6B2C91' }}>Admin INSPC Befelatanana</p>
+              <p className="text-xs text-gray-500">Administrateur</p>
             </div>
             <div className="relative">
               <button className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100">
