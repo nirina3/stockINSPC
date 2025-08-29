@@ -8,8 +8,8 @@ import {
   Package,
   AlertTriangle,
   BarChart3,
-  Filter,
-  ClipboardList
+  ClipboardList,
+  CheckCircle
 } from 'lucide-react';
 import { useModal } from '../hooks/useModal';
 import NewArticleModal from '../components/modals/NewArticleModal';
@@ -39,6 +39,7 @@ const Articles: React.FC = () => {
       currentStock: 150,
       minStock: 20,
       maxStock: 500,
+      unitPrice: 2500,
       supplier: 'PAPETERIE MODERNE',
       status: 'normal',
       lastEntry: '2024-01-15'
@@ -52,6 +53,7 @@ const Articles: React.FC = () => {
       currentStock: 5,
       minStock: 10,
       maxStock: 50,
+      unitPrice: 15000,
       supplier: 'TECH SUPPLIES',
       status: 'low',
       lastEntry: '2024-01-10'
@@ -65,6 +67,7 @@ const Articles: React.FC = () => {
       currentStock: 75,
       minStock: 25,
       maxStock: 200,
+      unitPrice: 8500,
       supplier: 'MEDICAL PLUS',
       status: 'normal',
       lastEntry: '2024-01-12'
@@ -78,6 +81,7 @@ const Articles: React.FC = () => {
       currentStock: 0,
       minStock: 5,
       maxStock: 30,
+      unitPrice: 3200,
       supplier: 'TECH SUPPLIES',
       status: 'out',
       lastEntry: '2023-12-20'
@@ -91,6 +95,7 @@ const Articles: React.FC = () => {
       currentStock: 40,
       minStock: 15,
       maxStock: 100,
+      unitPrice: 4800,
       supplier: 'HYGIENE PRO',
       status: 'normal',
       lastEntry: '2024-01-14'
