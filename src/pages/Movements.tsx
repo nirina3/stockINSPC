@@ -10,11 +10,16 @@ import {
   Building,
   Download
 } from 'lucide-react';
+import { useModal } from '../hooks/useModal';
+import StockEntryModal from '../components/modals/StockEntryModal';
+import StockExitModal from '../components/modals/StockExitModal';
 
 const Movements: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState('all');
   const [selectedService, setSelectedService] = useState('all');
+  const stockEntryModal = useModal();
+  const stockExitModal = useModal();
 
   const movementTypes = [
     { value: 'all', label: 'Tous les mouvements' },
@@ -159,6 +164,16 @@ const Movements: React.FC = () => {
     return matchesSearch && matchesType && matchesService;
   });
 
+  const handleStockEntry = (entryData: any) => {
+    console.log('Nouvelle entrée:', entryData);
+    // Logique pour enregistrer l'entrée
+  };
+
+  const handleStockExit = (exitData: any) => {
+    console.log('Nouvelle sortie:', exitData);
+    // Logique pour enregistrer la sortie
+  };
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -173,6 +188,7 @@ const Movements: React.FC = () => {
         </div>
         <div className="flex space-x-3">
           <button 
+            onClick={stockEntryModal.openModal}
             className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-opacity"
             style={{ backgroundColor: '#00A86B' }}
           >
@@ -180,6 +196,7 @@ const Movements: React.FC = () => {
             Entrée Stock
           </button>
           <button 
+            onClick={stockExitModal.openModal}
             className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-opacity"
             style={{ backgroundColor: '#DC143C' }}
           >
@@ -401,6 +418,18 @@ const Movements: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <StockEntryModal
+        isOpen={stockEntryModal.isOpen}
+        onClose={stockEntryModal.closeModal}
+        onSave={handleStockEntry}
+      />
+      <StockExitModal
+        isOpen={stockExitModal.isOpen}
+        onClose={stockExitModal.closeModal}
+        onSave={handleStockExit}
+      />
     </div>
   );
 };

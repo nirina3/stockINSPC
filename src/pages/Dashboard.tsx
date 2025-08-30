@@ -1,149 +1,112 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
-  Plus, 
-  Search, 
-  Filter, 
-  Edit, 
-  Trash2, 
-  Package,
+  Package, 
+  ArrowUp, 
+  ArrowDown, 
   AlertTriangle,
-  BarChart3,
+  Users,
   ClipboardList,
-  CheckCircle
+  TrendingUp,
+  Building
 } from 'lucide-react';
-import { useModal } from '../hooks/useModal';
-import NewArticleModal from '../components/modals/NewArticleModal';
-import AdvancedFiltersModal from '../components/modals/AdvancedFiltersModal';
+import StatsCard from '../components/StatsCard';
+import StockAlerts from '../components/StockAlerts';
+import TopArticles from '../components/TopArticles';
+import RecentMovements from '../components/RecentMovements';
 
-const Articles: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const newArticleModal = useModal();
-  const filtersModal = useModal();
-
-  const categories = [
-    { value: 'all', label: 'Toutes catégories' },
-    { value: 'bureau', label: 'Fournitures Bureau' },
-    { value: 'informatique', label: 'Consommables IT' },
-    { value: 'medical', label: 'Consommables Médicaux' },
-    { value: 'entretien', label: 'Produits Entretien' }
-  ];
-
-  const articles = [
+const Dashboard: React.FC = () => {
+  const dashboardStats = [
     {
-      id: 1,
-      code: 'FB001',
-      name: 'Papier A4 80g',
-      category: 'Fournitures Bureau',
-      unit: 'paquet',
-      currentStock: 150,
-      minStock: 20,
-      maxStock: 500,
-      unitPrice: 2500,
-      supplier: 'PAPETERIE MODERNE',
-      status: 'normal',
-      lastEntry: '2024-01-15'
+      title: 'Total Articles',
+      value: '247',
+      change: '+12%',
+      changeType: 'increase' as const,
+      icon: Package,
+      color: '#6B2C91'
     },
     {
-      id: 2,
-      code: 'IT002',
-      name: 'Cartouches HP 305',
-      category: 'Consommables IT',
-      unit: 'unité',
-      currentStock: 5,
-      minStock: 10,
-      maxStock: 50,
-      unitPrice: 15000,
-      supplier: 'TECH SUPPLIES',
-      status: 'low',
-      lastEntry: '2024-01-10'
+      title: 'Mouvements ce mois',
+      value: '1,234',
+      change: '+8%',
+      changeType: 'increase' as const,
+      icon: ArrowUpDown,
+      color: '#00A86B'
     },
     {
-      id: 3,
-      code: 'MED003',
-      name: 'Gants latex M',
-      category: 'Consommables Médicaux',
-      unit: 'boîte',
-      currentStock: 75,
-      minStock: 25,
-      maxStock: 200,
-      unitPrice: 8500,
-      supplier: 'MEDICAL PLUS',
-      status: 'normal',
-      lastEntry: '2024-01-12'
+      title: 'Alertes Stock',
+      value: '15',
+      change: '-5%',
+      changeType: 'decrease' as const,
+      icon: AlertTriangle,
+      color: '#DC143C'
     },
     {
-      id: 4,
-      code: 'IT004',
-      name: 'Câbles USB-C',
-      category: 'Consommables IT',
-      unit: 'unité',
-      currentStock: 0,
-      minStock: 5,
-      maxStock: 30,
-      unitPrice: 3200,
-      supplier: 'TECH SUPPLIES',
-      status: 'out',
-      lastEntry: '2023-12-20'
-    },
-    {
-      id: 5,
-      code: 'ENT005',
-      name: 'Désinfectant surfaces',
-      category: 'Produits Entretien',
-      unit: 'litre',
-      currentStock: 40,
-      minStock: 15,
-      maxStock: 100,
-      unitPrice: 4800,
-      supplier: 'HYGIENE PRO',
-      status: 'normal',
-      lastEntry: '2024-01-14'
+      title: 'Utilisateurs Actifs',
+      value: '24',
+      change: '+3%',
+      changeType: 'increase' as const,
+      icon: Users,
+      color: '#D4AF37'
     }
   ];
 
-  const getStatusBadge = (status: string, currentStock: number, minStock: number) => {
-    if (status === 'out' || currentStock === 0) {
-      return (
-        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
-          <AlertTriangle className="w-3 h-3 mr-1" />
-          Rupture
-        </span>
-      );
-    } else if (status === 'low' || currentStock <= minStock) {
-      return (
-        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-          <AlertTriangle className="w-3 h-3 mr-1" />
-          Stock faible
-        </span>
-      );
-    } else {
-      return (
-        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
-          <CheckCircle className="w-3 h-3 mr-1" />
-          Normal
-        </span>
-      );
+  const quickActions = [
+    {
+      title: 'Nouvelle Entrée',
+      description: 'Enregistrer une entrée de stock',
+      icon: ArrowUp,
+      color: '#00A86B',
+      action: () => console.log('Nouvelle entrée')
+    },
+    {
+      title: 'Nouvelle Sortie',
+      description: 'Enregistrer une sortie de stock',
+      icon: ArrowDown,
+      color: '#DC143C',
+      action: () => console.log('Nouvelle sortie')
+    },
+    {
+      title: 'Nouvel Inventaire',
+      description: 'Planifier un inventaire',
+      icon: ClipboardList,
+      color: '#6B2C91',
+      action: () => console.log('Nouvel inventaire')
+    },
+    {
+      title: 'Rapport Rapide',
+      description: 'Générer un rapport',
+      icon: TrendingUp,
+      color: '#D4AF37',
+      action: () => console.log('Rapport rapide')
     }
-  };
+  ];
 
-  const filteredArticles = articles.filter(article => {
-    const matchesSearch = article.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         article.code.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || 
-                           article.category.toLowerCase().includes(selectedCategory);
-    return matchesSearch && matchesCategory;
-  });
-
-  const handleNewArticle = (articleData: any) => {
-    console.log('Nouvel article:', articleData);
-    // Logique pour sauvegarder l'article
-  };
-
-  const handleApplyFilters = (filterData: any) => {
-    console.log('Filtres appliqués:', filterData);
-    // Logique pour appliquer les filtres
-  };
+  const serviceActivity = [
+    {
+      service: 'Service Pédagogique et Scientifique',
+      movements: 45,
+      trend: '+15%',
+      color: '#6B2C91'
+    },
+    {
+      service: 'Direction Formation et Recherche',
+      movements: 32,
+      trend: '+8%',
+      color: '#00A86B'
+    },
+    {
+      service: 'Service Administratif',
+      movements: 28,
+      trend: '+12%',
+      color: '#D4AF37'
+    },
+    {
+      service: 'Unité d\'Échographie',
+      movements: 19,
+      trend: '+22%',
+      color: '#DC143C'
+    }
+  ];
 
   return (
     <div className="space-y-6">
@@ -151,224 +114,173 @@ const Articles: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold" style={{ color: '#6B2C91' }}>
-            Gestion des Articles
+            Tableau de Bord
           </h1>
           <p className="text-gray-600 mt-1">
-            Gérez votre catalogue d'articles et suivez les stocks
+            Vue d'ensemble de la gestion de stock - INSPC Befelatanana
           </p>
         </div>
-        <button 
-          onClick={newArticleModal.openModal}
-          className="flex items-center px-4 py-2 text-white rounded-lg hover:opacity-90 transition-opacity"
-          style={{ backgroundColor: '#6B2C91' }}
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          Nouvel Article
-        </button>
-      </div>
-
-      {/* Filters */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0 md:space-x-4">
-          {/* Search */}
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Rechercher un article..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent"
-              style={{ '--tw-ring-color': '#6B2C91' } as any}
-            />
-          </div>
-
-          {/* Category Filter */}
-          <div className="flex items-center space-x-4">
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent"
-              style={{ '--tw-ring-color': '#6B2C91' } as any}
-            >
-              {categories.map(category => (
-                <option key={category.value} value={category.value}>
-                  {category.label}
-                </option>
-              ))}
-            </select>
-            <button 
-              onClick={filtersModal.openModal}
-              className="flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-            >
-              <Filter className="w-4 h-4 mr-2" />
-              Filtres
-            </button>
-          </div>
+        <div className="text-sm text-gray-500">
+          Dernière mise à jour: {new Date().toLocaleDateString('fr-FR')} à {new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
         </div>
       </div>
 
-      {/* Articles Table */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead style={{ backgroundColor: '#6B2C91' }}>
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                  Article
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                  Catégorie
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                  Stock Actuel
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                  Statut
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-                  Fournisseur
-                </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-white uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {filteredArticles.map((article) => (
-                <tr key={article.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div 
-                        className="w-10 h-10 rounded-lg flex items-center justify-center mr-3"
-                        style={{ backgroundColor: '#6B2C9120' }}
-                      >
-                        <Package className="w-5 h-5" style={{ color: '#6B2C91' }} />
-                      </div>
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">
-                          {article.name}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          Code: {article.code}
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span 
-                      className="inline-flex px-2 py-1 text-xs font-medium rounded-full"
-                      style={{ backgroundColor: '#00A86B20', color: '#00A86B' }}
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {dashboardStats.map((stat, index) => (
+          <StatsCard
+            key={index}
+            title={stat.title}
+            value={stat.value}
+            change={stat.change}
+            changeType={stat.changeType}
+            icon={stat.icon}
+            color={stat.color}
+          />
+        ))}
+      </div>
+
+      {/* Quick Actions */}
+      <div className="bg-white rounded-lg shadow-sm">
+        <div className="p-6 border-b border-gray-200">
+          <h3 className="text-lg font-semibold" style={{ color: '#6B2C91' }}>
+            Actions Rapides
+          </h3>
+          <p className="text-sm text-gray-600 mt-1">
+            Accès rapide aux fonctionnalités principales
+          </p>
+        </div>
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {quickActions.map((action, index) => {
+              const Icon = action.icon;
+              return (
+                <button
+                  key={index}
+                  onClick={action.action}
+                  className="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow text-left"
+                >
+                  <div className="flex items-center mb-3">
+                    <div 
+                      className="w-10 h-10 rounded-lg flex items-center justify-center mr-3"
+                      style={{ backgroundColor: `${action.color}20` }}
                     >
-                      {article.category}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      <strong>{article.currentStock}</strong> {article.unit}
+                      <Icon className="w-5 h-5" style={{ color: action.color }} />
                     </div>
-                    <div className="text-xs text-gray-500">
-                      Min: {article.minStock} | Max: {article.maxStock}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {article.unitPrice.toLocaleString()} FCFA
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {getStatusBadge(article.status, article.currentStock, article.minStock)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {article.supplier}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <div className="flex items-center justify-end space-x-2">
-                      <button 
-                        className="p-2 rounded-lg hover:bg-gray-100"
-                        style={{ color: '#00A86B' }}
-                      >
-                        <Edit className="w-4 h-4" />
-                      </button>
-                      <button 
-                        className="p-2 rounded-lg hover:bg-gray-100"
-                        style={{ color: '#DC143C' }}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    <h4 className="font-medium text-gray-900">{action.title}</h4>
+                  </div>
+                  <p className="text-sm text-gray-600">{action.description}</p>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="flex items-center">
-            <div 
-              className="w-12 h-12 rounded-lg flex items-center justify-center mr-4"
-              style={{ backgroundColor: '#6B2C9120' }}
-            >
-              <Package className="w-6 h-6" style={{ color: '#6B2C91' }} />
-            </div>
-            <div>
-              <p className="text-2xl font-bold" style={{ color: '#6B2C91' }}>
-                {articles.length}
-              </p>
-              <p className="text-sm text-gray-600">Total Articles</p>
+      {/* Main Dashboard Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Stock Alerts - Takes 1 column */}
+        <div className="lg:col-span-1">
+          <StockAlerts />
+        </div>
+
+        {/* Recent Movements - Takes 1 column */}
+        <div className="lg:col-span-1">
+          <RecentMovements />
+        </div>
+
+        {/* Top Articles - Takes 1 column */}
+        <div className="lg:col-span-1">
+          <TopArticles />
+        </div>
+      </div>
+
+      {/* Service Activity */}
+      <div className="bg-white rounded-lg shadow-sm">
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold" style={{ color: '#6B2C91' }}>
+              Activité par Service
+            </h3>
+            <div className="text-sm" style={{ color: '#00A86B' }}>
+              Ce mois
             </div>
           </div>
         </div>
-
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="flex items-center">
-            <div 
-              className="w-12 h-12 rounded-lg flex items-center justify-center mr-4"
-              style={{ backgroundColor: '#DC143C20' }}
-            >
-              <AlertTriangle className="w-6 h-6" style={{ color: '#DC143C' }} />
-            </div>
-            <div>
-              <p className="text-2xl font-bold" style={{ color: '#DC143C' }}>
-                {articles.filter(a => a.status === 'out' || a.currentStock === 0).length}
-              </p>
-              <p className="text-sm text-gray-600">En Rupture</p>
-            </div>
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {serviceActivity.map((service, index) => (
+              <div key={index} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                <div className="flex items-center">
+                  <div 
+                    className="w-10 h-10 rounded-lg flex items-center justify-center mr-4"
+                    style={{ backgroundColor: `${service.color}20` }}
+                  >
+                    <Building className="w-5 h-5" style={{ color: service.color }} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">
+                      {service.service}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {service.movements} mouvements
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-bold" style={{ color: service.color }}>
+                    {service.movements}
+                  </p>
+                  <p className="text-xs text-green-600 font-medium">
+                    {service.trend}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
+      </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="flex items-center">
-            <div 
-              className="w-12 h-12 rounded-lg flex items-center justify-center mr-4"
-              style={{ backgroundColor: '#D4AF3720' }}
-            >
-              <AlertTriangle className="w-6 h-6" style={{ color: '#D4AF37' }} />
-            </div>
-            <div>
-              <p className="text-2xl font-bold" style={{ color: '#D4AF37' }}>
-                {articles.filter(a => a.status === 'low' || (a.currentStock <= a.minStock && a.currentStock > 0)).length}
-              </p>
-              <p className="text-sm text-gray-600">Stock Faible</p>
-            </div>
-          </div>
+      {/* System Status */}
+      <div className="bg-white rounded-lg shadow-sm">
+        <div className="p-6 border-b border-gray-200">
+          <h3 className="text-lg font-semibold" style={{ color: '#6B2C91' }}>
+            État du Système
+          </h3>
         </div>
-
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <div className="flex items-center">
-            <div 
-              className="w-12 h-12 rounded-lg flex items-center justify-center mr-4"
-              style={{ backgroundColor: '#00A86B20' }}
-            >
-              <CheckCircle className="w-6 h-6" style={{ color: '#00A86B' }} />
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div 
+                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3"
+                style={{ backgroundColor: '#00A86B20' }}
+              >
+                <CheckCircle className="w-8 h-8" style={{ color: '#00A86B' }} />
+              </div>
+              <h4 className="font-medium text-gray-900">Base de Données</h4>
+              <p className="text-sm text-green-600">Opérationnelle</p>
             </div>
-            <div>
-              <p className="text-2xl font-bold" style={{ color: '#00A86B' }}>
-                {articles.filter(a => a.currentStock > a.minStock).length}
-              </p>
-              <p className="text-sm text-gray-600">Stock Normal</p>
+            
+            <div className="text-center">
+              <div 
+                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3"
+                style={{ backgroundColor: '#00A86B20' }}
+              >
+                <Package className="w-8 h-8" style={{ color: '#00A86B' }} />
+              </div>
+              <h4 className="font-medium text-gray-900">Synchronisation</h4>
+              <p className="text-sm text-green-600">À jour</p>
+            </div>
+            
+            <div className="text-center">
+              <div 
+                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3"
+                style={{ backgroundColor: '#D4AF3720' }}
+              >
+                <Users className="w-8 h-8" style={{ color: '#D4AF37' }} />
+              </div>
+              <h4 className="font-medium text-gray-900">Utilisateurs Connectés</h4>
+              <p className="text-sm" style={{ color: '#D4AF37' }}>8 actifs</p>
             </div>
           </div>
         </div>
@@ -377,4 +289,18 @@ const Articles: React.FC = () => {
   );
 };
 
-export default Articles;
+// Composant ArrowUpDown pour les mouvements
+const ArrowUpDown: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+  </svg>
+);
+
+// Composant CheckCircle pour le statut système
+const CheckCircle: React.FC<{ className?: string }> = ({ className }) => (
+  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+);
+
+export default Dashboard;
